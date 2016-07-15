@@ -1,0 +1,44 @@
+group 'cf'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'maven'
+sourceCompatibility = 1.8
+
+mainClassName = "cf.cli.CFCli"
+
+repositories {
+    mavenCentral()
+    maven { url 'http://repo.spring.io/release' }
+    maven { url 'http://repo.spring.io/milestone' }
+    maven { url 'http://repo.spring.io/snapshot' }
+}
+
+dependencies {
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.2'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '0.9.26'
+    compile 'org.cloudfoundry:cloudfoundry-client-spring:2.0.0.BUILD-SNAPSHOT'
+    compile 'org.cloudfoundry:cloudfoundry-operations:2.0.0.BUILD-SNAPSHOT'
+    compile 'io.projectreactor:reactor-core:2.5.0.BUILD-SNAPSHOT'
+    compile 'io.projectreactor:reactor-netty:2.5.0.BUILD-SNAPSHOT'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+jar {
+    baseName = 'cf-cli'
+    version = '0.0.1-SNAPSHOT'
+    manifest {
+        attributes 'Main-Class': 'cf.cli.CFCli'
+    }
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: 'http://repo.spring.io/release')
+            repository(url: 'https://mvnrepository.com/artifact')
+        }
+    }
+}
